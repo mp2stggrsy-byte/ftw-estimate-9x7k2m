@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-<title>ミラコスタ見積シミュレーター プランC 完全再現版</title>
+<title>ミラコスタ見積シミュレーター プランC 編集可能版</title>
 <script>
 const PASSWORD = "20270501";
 while (true) {
@@ -17,18 +17,12 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   margin: 0; padding: 14px; color: #222; background: #fff;
 }
-h1 { font-size: 20px; margin: 8px 0 14px; }
+h1 { font-size:20px; margin:8px 0 14px; }
 .controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
 label { font-size:13px; font-weight:700; display:block; margin-bottom:4px; }
-select, input {
-  box-sizing:border-box; width:100%; font-size:16px; padding:8px;
-  border:1px solid #ccc; border-radius:8px; background:#fff;
-}
+select,input { box-sizing:border-box; width:100%; font-size:16px; padding:8px; border:1px solid #ccc; border-radius:8px; background:#fff; }
 input { text-align:right; }
-.summary {
-  display:grid; grid-template-columns:1fr 1fr; gap:10px;
-  border-top:1px solid #ddd; padding-top:12px; margin-bottom:12px;
-}
+.summary { display:grid; grid-template-columns:1fr 1fr; gap:10px; border-top:1px solid #ddd; padding-top:12px; margin-bottom:12px; }
 .card { border:1px solid #d8d8d8; border-radius:12px; padding:12px; background:#fafafa; min-height:58px; }
 .card .title { color:#666; font-size:13px; font-weight:700; }
 .card .val { text-align:right; font-weight:800; font-size:22px; margin-top:10px; }
@@ -43,17 +37,14 @@ th { background:#f4f4f4; white-space:nowrap; }
 th.edit-head { background:#e6f2ff; }
 td.name { font-weight:700; background:#fff; position:sticky; left:0; z-index:1; min-width:210px; }
 td.edit-cell, td.edit-cell input { background:#e6f2ff; }
-.package-cell { background:#eeeeee; text-align:center; font-weight:800; color:#555; }
-.readonly { background:#f7f7f7; color:#555; }
+td.base-cell, td.base-cell input { background:#f7f7f7; }
 .num { text-align:right; white-space:nowrap; }
-td input, td select { font-size:14px; padding:6px; }
-td .qtype { margin-bottom:4px; }
+td input,td select { font-size:14px; padding:6px; }
 .result { font-weight:800; background:#fffdf2; }
 .positive { color:#c21b1b; }
 .negative { color:#1267c4; }
 .note { min-width:210px; color:#555; font-size:12px; }
-.qtype-col { display:none; }
-@media (max-width:600px) {
+@media(max-width:600px) {
   body { padding:12px; }
   h1 { font-size:18px; }
   .controls,.summary { grid-template-columns:1fr; }
@@ -61,21 +52,11 @@ td .qtype { margin-bottom:4px; }
 </style>
 </head>
 <body>
-<h1>見積シミュレーター（プランC完全再現版）</h1>
+<h1>見積シミュレーター（プランC・編集可能版）</h1>
 
 <div class="controls">
-  <div>
-    <label>人数</label>
-    <select id="people"><option value="40" selected>40名</option><option value="50">50名</option><option value="60">60名</option><option value="70">70名</option><option value="80">80名</option><option value="90">90名</option><option value="100">100名</option></select>
-  </div>
-  <div>
-    <label>端数処理</label>
-    <select id="rounding">
-      <option value="round" selected>四捨五入</option>
-      <option value="floor">切り捨て</option>
-      <option value="none">小数あり</option>
-    </select>
-  </div>
+  <div><label>人数</label><select id="people"><option value="40" selected>40名</option><option value="50">50名</option><option value="60">60名</option><option value="70">70名</option><option value="80">80名</option><option value="90">90名</option><option value="100">100名</option></select></div>
+  <div><label>端数処理</label><select id="rounding"><option value="round" selected>四捨五入</option><option value="floor">切り捨て</option><option value="none">小数あり</option></select></div>
 </div>
 
 <div class="summary">
@@ -92,9 +73,9 @@ td .qtype { margin-bottom:4px; }
 </div>
 
 <div class="note-text">
-  <b>薄い青の「選択金額」だけ編集</b>してください。Pはパッケージに含まれるため編集不可です。<br>
+  <b>薄い青の「選択金額」だけ編集</b>してください。Pは備考に表示していますが、選択金額は編集可能です。<br>
   計算式：差額合計 ＝（選択金額 − 基準金額）×（1 − 割引率）× 数量。安いものを選んだ場合のマイナス差額も反映します。<br>
-  初期状態は40名で差額0円になるように設定しています。
+  初期状態は40名で差額0円です。
 </div>
 
 <div class="table-wrap">
@@ -115,421 +96,421 @@ td .qtype { margin-bottom:4px; }
 </thead>
 <tbody>
 
-<tr data-calc="1">
+<tr>
   <td class="name">挙式料（式次第含む）</td>
   <td class="edit-cell"><input class="selected" type="number" value="288000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">288000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="288000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note"></td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">お料理</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">21,800円</td>
-  <td class="qtype-col">人数</td>
-  <td class="num readonly qty-text" data-qtype="人数">40</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="21800" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="21800" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／単価×人数</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">お飲物（フリードリンク）</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">5,620円</td>
-  <td class="qtype-col">人数</td>
-  <td class="num readonly qty-text" data-qtype="人数">40</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="5620" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="5620" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／単価×人数</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">オリジナルウェディングケーキ</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">2,090円</td>
-  <td class="qtype-col">人数</td>
-  <td class="num readonly qty-text" data-qtype="人数">40</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="2090" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="2090" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／単価×人数／ケーキ装花含む</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">披露宴室料</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">1,920円</td>
-  <td class="qtype-col">人数</td>
-  <td class="num readonly qty-text" data-qtype="人数">40</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="1920" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="1920" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／単価×人数</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">控室料</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">30,800円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="30800" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="30800" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">①ご新郎お衣裳</td>
   <td class="edit-cell"><input class="selected" type="number" value="176000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">176000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="176000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="40" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">40%割引</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">②ご新郎お衣裳</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">176,000円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="176000" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="176000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">②ご新郎お衣裳差額</td>
   <td class="edit-cell"><input class="selected" type="number" value="11000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">11000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="11000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="40" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">40%割引</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">新郎シャツセット（販売）</td>
   <td class="edit-cell"><input class="selected" type="number" value="12100" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">12100</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="12100" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note"></td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">①ご新婦ウェディングドレス</td>
   <td class="edit-cell"><input class="selected" type="number" value="385000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">385000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="385000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="40" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">40%割引</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">②ご新婦カラードレス</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">352,000円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="352000" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="352000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">ご新郎お支度料－洋装</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">11,000円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="11000" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="11000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">ご新郎お支度料－お色直し（洋装）</td>
   <td class="edit-cell"><input class="selected" type="number" value="11000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">11000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="11000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="15" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">15%割引</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">ご新婦お支度料－ウェディングドレス</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">91,300円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="91300" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="91300" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／オリジナルヘアメイクブック込み</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">ご新婦お支度料－お色直し（洋装）</td>
   <td class="edit-cell"><input class="selected" type="number" value="44000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">44000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="44000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="15" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">15%割引</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">メインテーブル装花</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">132,000円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="132000" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="132000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">キャンドル＆キャンドル装花</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">60,500円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="60500" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="60500" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">ゲストテーブル装花</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">12,100円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="12100" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="12100" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／10名につき1テーブル</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">ブーケ・ブートニア</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">33,000円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="33000" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="33000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">スタジオ写真（3ポーズ）</td>
   <td class="edit-cell"><input class="selected" type="number" value="99000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">99000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="99000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="15" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">15%割引／ご集合写真×1・ご新郎ご新婦写真×2</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">挙式・披露宴スナップ写真（60カット）</td>
   <td class="edit-cell"><input class="selected" type="number" value="368500" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">368500</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="368500" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note"></td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">挙式・披露宴ビデオ撮影（DVD）</td>
   <td class="edit-cell"><input class="selected" type="number" value="220000" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">220000</span>円</td>
-  <td class="qtype-col">固定</td>
-  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="220000" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="15" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">15%割引／挙式スタンダード</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">音響照明費</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">P</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="0" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="0" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">ライブエンターテイメント</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">P</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="0" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="0" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">司会者</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">P</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="0" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="0" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">BGM</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">P</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="0" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="0" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">招待状</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">671円</td>
-  <td class="qtype-col">人数</td>
-  <td class="num readonly qty-text" data-qtype="人数">40</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="671" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="671" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／単価×人数（20枚より）</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">席札</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">286円</td>
-  <td class="qtype-col">人数</td>
-  <td class="num readonly qty-text" data-qtype="人数">40</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="286" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="286" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／単価×人数</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">メニューカード</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">451円</td>
-  <td class="qtype-col">人数</td>
-  <td class="num readonly qty-text" data-qtype="人数">40</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="451" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="451" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">P／単価×人数</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">席次表</td>
   <td class="edit-cell"><input class="selected" type="number" value="1111" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">1111</span>円</td>
-  <td class="qtype-col">人数</td>
-  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select><input class="qty" type="number" value="40" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="1111" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="40" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">単価×人数（20枚より）</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">引出物</td>
   <td class="edit-cell"><input class="selected" type="number" value="4180" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">4180</span>円</td>
-  <td class="qtype-col">80%</td>
-  <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select><input class="qty" type="number" value="32" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="4180" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
+  <td><input class="qty" type="number" value="32" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">単価×人数（80%として）</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">引菓子</td>
   <td class="edit-cell"><input class="selected" type="number" value="1458" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">1458</span>円</td>
-  <td class="qtype-col">80%</td>
-  <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select><input class="qty" type="number" value="32" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="1458" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
+  <td><input class="qty" type="number" value="32" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">単価×人数（80%として）</td>
 </tr>
-<tr data-calc="1">
+<tr>
   <td class="name">ペーパーバッグ</td>
   <td class="edit-cell"><input class="selected" type="number" value="484" inputmode="numeric"></td>
-  <td class="num readonly"><span class="base">484</span>円</td>
-  <td class="qtype-col">80%</td>
-  <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select><input class="qty" type="number" value="32" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="484" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
+  <td><input class="qty" type="number" value="32" inputmode="numeric"></td>
   <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
   <td class="note">単価×人数（80%として）</td>
 </tr>
-<tr data-calc="0">
+<tr>
   <td class="name">介添料</td>
-  <td class="package-cell">P</td>
-  <td class="num readonly">23,100円</td>
-  <td class="qtype-col">固定</td>
-  <td class="num readonly qty-text" data-qtype="固定">1</td>
-  <td class="num readonly">—</td>
+  <td class="edit-cell"><input class="selected" type="number" value="23100" inputmode="numeric"></td>
+  <td class="base-cell"><input class="base" type="number" value="23100" inputmode="numeric"></td>
+  <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+  <td><input class="qty" type="number" value="1" inputmode="numeric"></td>
+  <td><input class="rate" type="number" value="0" inputmode="decimal"></td>
   <td class="num diff">0円</td>
   <td class="num after">0円</td>
   <td class="num result">0円</td>
@@ -542,15 +523,9 @@ td .qtype { margin-bottom:4px; }
 <script>
 const BASE_TOTALS = {"40":4517544,"50":4922630,"60":5327716,"70":5732802,"80":6137888,"90":6542974,"100":6948060};
 
-function getNumberFromInput(el) {
+function getNumber(el) {
   if (!el) return 0;
   const raw = String(el.value || "0").replace(/,/g, "");
-  const num = parseFloat(raw);
-  return isNaN(num) ? 0 : num;
-}
-function getNumberFromSpan(el) {
-  if (!el) return 0;
-  const raw = String(el.textContent || "0").replace(/,/g, "");
   const num = parseFloat(raw);
   return isNaN(num) ? 0 : num;
 }
@@ -566,13 +541,8 @@ function qtyFromType(type) {
 }
 function syncAllQty() {
   document.querySelectorAll("tbody tr").forEach(tr => {
-    if (tr.dataset.calc === "1") {
-      const type = tr.querySelector(".qtype").value;
-      tr.querySelector(".qty").value = qtyFromType(type);
-    } else {
-      const text = tr.querySelector(".qty-text");
-      if (text) text.textContent = qtyFromType(text.dataset.qtype);
-    }
+    const type = tr.querySelector(".qtype").value;
+    tr.querySelector(".qty").value = qtyFromType(type);
   });
 }
 function roundValue(num) {
@@ -587,26 +557,14 @@ function setResultClass(el, val) {
 function calc() {
   const people = parseInt(document.getElementById("people").value, 10) || 40;
   let adjust = 0;
-
   document.querySelectorAll("tbody tr").forEach(tr => {
-    if (tr.dataset.calc !== "1") {
-      tr.querySelector(".diff").textContent = "0円";
-      tr.querySelector(".after").textContent = "0円";
-      const res = tr.querySelector(".result");
-      res.textContent = "0円";
-      setResultClass(res, 0);
-      return;
-    }
-
-    const selected = getNumberFromInput(tr.querySelector(".selected"));
-    const base = getNumberFromSpan(tr.querySelector(".base"));
-    const quantity = getNumberFromInput(tr.querySelector(".qty"));
-    const rate = getNumberFromInput(tr.querySelector(".rate")) / 100;
-
+    const selected = getNumber(tr.querySelector(".selected"));
+    const base = getNumber(tr.querySelector(".base"));
+    const quantity = getNumber(tr.querySelector(".qty"));
+    const rate = getNumber(tr.querySelector(".rate")) / 100;
     const diff = selected - base;
     const after = diff * (1 - rate);
     const total = roundValue(after * quantity);
-
     tr.querySelector(".diff").textContent = yen(diff);
     tr.querySelector(".after").textContent = yen(roundValue(after));
     const resultCell = tr.querySelector(".result");
@@ -614,7 +572,6 @@ function calc() {
     setResultClass(resultCell, total);
     adjust += total;
   });
-
   const baseTotal = BASE_TOTALS[String(people)] || 0;
   const grandTotal = baseTotal + adjust;
   document.getElementById("baseTotal").textContent = yen(baseTotal);
@@ -623,14 +580,13 @@ function calc() {
   document.getElementById("perPerson").textContent = yen(grandTotal / people);
 }
 function resetSelected() {
-  document.querySelectorAll("tbody tr[data-calc='1']").forEach(tr => {
-    tr.querySelector(".selected").value = getNumberFromSpan(tr.querySelector(".base"));
+  document.querySelectorAll("tbody tr").forEach(tr => {
+    tr.querySelector(".selected").value = tr.querySelector(".base").value;
   });
   calc();
 }
 function copySummary() {
-  const text =
-    "プランC見積\n" +
+  const text = "プランC見積\n" +
     "人数: " + document.getElementById("people").value + "名\n" +
     "基本見積: " + document.getElementById("baseTotal").textContent + "\n" +
     "差額調整: " + document.getElementById("adjustTotal").textContent + "\n" +
