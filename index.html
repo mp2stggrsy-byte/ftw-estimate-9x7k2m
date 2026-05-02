@@ -50,6 +50,47 @@ td input,td select { font-size:14px; padding:6px; }
   .controls,.summary { grid-template-columns:1fr; }
 }
 </style>
+
+<style>
+/* PDF・フルページスクショ用：横スクロール枠を解除して全体を表示 */
+body.print-mode .table-wrap {
+  overflow: visible !important;
+  border: none !important;
+}
+body.print-mode table {
+  min-width: 0 !important;
+  width: 100% !important;
+  table-layout: fixed !important;
+  font-size: 11px !important;
+}
+body.print-mode th,
+body.print-mode td {
+  padding: 4px !important;
+  word-break: break-word !important;
+}
+body.print-mode td.name {
+  position: static !important;
+  min-width: 0 !important;
+  width: 24% !important;
+}
+body.print-mode input,
+body.print-mode select {
+  font-size: 11px !important;
+  padding: 3px !important;
+}
+body.print-mode .note {
+  min-width: 0 !important;
+}
+@media print {
+  .table-wrap { overflow: visible !important; border: none !important; }
+  table { min-width: 0 !important; width: 100% !important; table-layout: fixed !important; font-size: 10px !important; }
+  th, td { padding: 3px !important; word-break: break-word !important; }
+  td.name { position: static !important; min-width: 0 !important; width: 24% !important; }
+  input, select { font-size: 10px !important; padding: 2px !important; }
+  .actions { display:none !important; }
+}
+</style>
+
 </head>
 <body>
 <h1>見積シミュレーター（プランC・編集可能版）</h1>
@@ -70,6 +111,8 @@ td input,td select { font-size:14px; padding:6px; }
   <button type="button" id="recalcBtn">再計算</button>
   <button type="button" id="resetBtn">選択金額を基準に戻す</button>
   <button type="button" id="copyBtn">合計をコピー</button>
+  <button type="button" id="printModeBtn">PDF/スクショ用表示</button>
+
 </div>
 
 <div class="note-text">
@@ -606,5 +649,21 @@ document.querySelectorAll("tbody input, tbody select").forEach(el => {
 syncAllQty();
 calc();
 </script>
+
+<script>
+(function(){
+  const btn = document.getElementById("printModeBtn");
+  if(btn){
+    btn.addEventListener("click", function(){
+      document.body.classList.toggle("print-mode");
+      btn.textContent = document.body.classList.contains("print-mode")
+        ? "通常表示に戻す"
+        : "PDF/スクショ用表示";
+      setTimeout(function(){ window.scrollTo(0,0); }, 100);
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
