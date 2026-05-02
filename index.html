@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<script>
+const PASSWORD = "miracosta2026";
+while(true){
+  let input = prompt("パスワードを入力してください");
+  if(input === PASSWORD) break;
+}
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ミラコスタ見積シミュレーター プランC</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; margin:0; padding:14px; background:#fff; color:#222; }
+h1 { font-size:21px; margin:8px 0 14px; }
+.controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+label { font-size:13px; font-weight:700; display:block; margin-bottom:4px; }
+select,input { box-sizing:border-box; width:100%; font-size:16px; padding:8px; border:1px solid #ccc; border-radius:8px; background:#fff; }
+input { text-align:right; }
+.summary { display:grid; grid-template-columns:1fr 1fr; gap:10px; border-top:1px solid #ddd; padding-top:12px; margin-bottom:12px; }
+.card { border:1px solid #d8d8d8; border-radius:12px; padding:12px; background:#fafafa; min-height:58px; }
+.card .title { color:#666; font-size:13px; font-weight:700; }
+.card .val { text-align:right; font-weight:800; font-size:22px; margin-top:10px; }
+.card.total { background:#fff0f6; }
+.actions { display:flex; gap:8px; margin:12px 0; flex-wrap:wrap; }
+button { font-size:15px; font-weight:700; color:#1473e6; background:#fff; border:1px solid #ddd; border-radius:10px; padding:10px 12px; }
+.note { font-size:12px; color:#555; line-height:1.55; margin:8px 2px 12px; }
+.table-wrap { overflow-x:auto; border:1px solid #d8d8d8; border-radius:12px; }
+table { border-collapse:collapse; min-width:1080px; width:100%; font-size:13px; }
+th,td { border-right:1px solid #ddd; border-bottom:1px solid #ddd; padding:6px; }
+th { background:#f4f4f4; white-space:nowrap; }
+td.name { font-weight:700; background:#fff; position:sticky; left:0; z-index:1; min-width:150px; }
+.num { text-align:right; white-space:nowrap; }
+td input,td select { font-size:14px; padding:6px; }
+.result { font-weight:800; background:#fffdf2; }
+.positive { color:#c21b1b; }
+.negative { color:#1267c4; }
+@media(max-width:600px) { body{padding:12px;} h1{font-size:19px;} .controls,.summary{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<h1>見積シミュレーター（プランC）</h1>
+<div class="controls">
+<div><label>人数</label><select id="people" onchange="syncAllQty();calc();"><option value="40" selected>40名</option><option value="50">50名</option><option value="60">60名</option><option value="70">70名</option><option value="80">80名</option><option value="90">90名</option><option value="100">100名</option></select></div>
+<div><label>端数処理</label><select id="rounding" onchange="calc();"><option value="round" selected>四捨五入</option><option value="floor">切り捨て</option><option value="none">小数あり</option></select></div>
+</div>
+
+<div class="summary">
+<div class="card"><div class="title">プランC基本見積</div><div class="val" id="baseTotal">4,517,544円</div></div>
+<div class="card"><div class="title">差額調整 合計</div><div class="val" id="adjustTotal">0円</div></div>
+<div class="card total"><div class="title">試算合計</div><div class="val" id="grandTotal">4,517,544円</div></div>
+<div class="card"><div class="title">1人あたり目安</div><div class="val" id="perPerson">112,939円</div></div>
+</div>
+
+<div class="actions">
+<button type="button" onclick="calc();">再計算</button>
+<button type="button" onclick="resetSelected();">選択金額を基準に戻す</button>
+<button type="button" onclick="copySummary();">合計をコピー</button>
+</div>
+
+<div class="note">
+最初は40名の見積書内容を反映しています。金額を変更したら「再計算」を押してください。<br>
+計算式：追加額 ＝（選択金額 − 基準金額）×（1 − 割引率）× 数量。安いものを選んだ場合のマイナス差額も反映します。
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>項目</th><th>基準金額</th><th>選択金額</th><th>数量区分</th><th>数量</th><th>割引率%</th><th>差額単価</th><th>割引後差額単価</th><th>差額合計</th></tr></thead>
+<tbody>
+
+<tr>
+<td class="name">挙式料</td>
+<td><input class="base" type="number" value="288000"></td>
+<td><input class="selected" type="number" value="288000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">料理</td>
+<td><input class="base" type="number" value="21800"></td>
+<td><input class="selected" type="number" value="21800"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="40"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">飲物</td>
+<td><input class="base" type="number" value="5620"></td>
+<td><input class="selected" type="number" value="5620"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="40"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">ウェディングケーキ</td>
+<td><input class="base" type="number" value="2090"></td>
+<td><input class="selected" type="number" value="2090"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="40"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">披露宴会場費</td>
+<td><input class="base" type="number" value="1920"></td>
+<td><input class="selected" type="number" value="1920"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="40"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">控室料</td>
+<td><input class="base" type="number" value="30800"></td>
+<td><input class="selected" type="number" value="30800"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="40"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新郎衣装</td>
+<td><input class="base" type="number" value="176000"></td>
+<td><input class="selected" type="number" value="176000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="40"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新婦衣装</td>
+<td><input class="base" type="number" value="176000"></td>
+<td><input class="selected" type="number" value="176000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新郎衣装差額</td>
+<td><input class="base" type="number" value="11000"></td>
+<td><input class="selected" type="number" value="11000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="40"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新郎シャツセット</td>
+<td><input class="base" type="number" value="12100"></td>
+<td><input class="selected" type="number" value="12100"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新婦ドレス</td>
+<td><input class="base" type="number" value="385000"></td>
+<td><input class="selected" type="number" value="385000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="40"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新婦カラードレス</td>
+<td><input class="base" type="number" value="352000"></td>
+<td><input class="selected" type="number" value="352000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新婦美容</td>
+<td><input class="base" type="number" value="11000"></td>
+<td><input class="selected" type="number" value="11000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新郎美容</td>
+<td><input class="base" type="number" value="11000"></td>
+<td><input class="selected" type="number" value="11000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="15"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新郎着付</td>
+<td><input class="base" type="number" value="91300"></td>
+<td><input class="selected" type="number" value="91300"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">新婦着付</td>
+<td><input class="base" type="number" value="44000"></td>
+<td><input class="selected" type="number" value="44000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="15"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">メインテーブル装花</td>
+<td><input class="base" type="number" value="132000"></td>
+<td><input class="selected" type="number" value="132000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">キャンドル装花</td>
+<td><input class="base" type="number" value="60500"></td>
+<td><input class="selected" type="number" value="60500"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">ゲストテーブル装花</td>
+<td><input class="base" type="number" value="12100"></td>
+<td><input class="selected" type="number" value="12100"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">ブーケ</td>
+<td><input class="base" type="number" value="33000"></td>
+<td><input class="selected" type="number" value="33000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">スタジオ写真</td>
+<td><input class="base" type="number" value="99000"></td>
+<td><input class="selected" type="number" value="99000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="15"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">挙式スナップ</td>
+<td><input class="base" type="number" value="368500"></td>
+<td><input class="selected" type="number" value="368500"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">挙式DVD</td>
+<td><input class="base" type="number" value="220000"></td>
+<td><input class="selected" type="number" value="220000"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="15"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">招待状</td>
+<td><input class="base" type="number" value="671"></td>
+<td><input class="selected" type="number" value="671"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="40"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">席札</td>
+<td><input class="base" type="number" value="286"></td>
+<td><input class="selected" type="number" value="286"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">メニューカード</td>
+<td><input class="base" type="number" value="451"></td>
+<td><input class="selected" type="number" value="451"></td>
+<td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="1"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">席次表</td>
+<td><input class="base" type="number" value="1111"></td>
+<td><input class="selected" type="number" value="1111"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
+<td><input class="qty" type="number" value="40"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">引出物</td>
+<td><input class="base" type="number" value="4180"></td>
+<td><input class="selected" type="number" value="4180"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
+<td><input class="qty" type="number" value="32"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">引菓子</td>
+<td><input class="base" type="number" value="1458"></td>
+<td><input class="selected" type="number" value="1458"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
+<td><input class="qty" type="number" value="32"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+<tr>
+<td class="name">ペーパーバッグ</td>
+<td><input class="base" type="number" value="484"></td>
+<td><input class="selected" type="number" value="484"></td>
+<td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
+<td><input class="qty" type="number" value="32"></td>
+<td><input class="rate" type="number" value="0"></td>
+<td class="num diff">0円</td>
+<td class="num after">0円</td>
+<td class="num result">0円</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<script>
+var BASE_TOTALS = {"40":4517544,"50":4922630,"60":5327716,"70":5732802,"80":6137888,"90":6542974,"100":6948060};
+
+function n(el) {
+  var v = (el && el.value) ? String(el.value).replace(/,/g,'') : '0';
+  var x = parseFloat(v);
+  return isNaN(x) ? 0 : x;
+}
+function yen(x) {
+  if (!isFinite(x)) x = 0;
+  return Math.round(x).toLocaleString('ja-JP') + '円';
+}
+function qty(type) {
+  var people = parseInt(document.getElementById('people').value, 10) || 40;
+  if (type === '人数') return people;
+  if (type === '80%') return Math.round(people * 0.8);
+  return 1;
+}
+function syncAllQty() {
+  var rows = document.querySelectorAll('tbody tr');
+  for (var i=0; i<rows.length; i++) {
+    var tr = rows[i];
+    var type = tr.querySelector('.qtype').value;
+    tr.querySelector('.qty').value = qty(type);
+  }
+}
+function roundValue(x) {
+  var mode = document.getElementById('rounding').value;
+  if (mode === 'floor') return Math.floor(x);
+  if (mode === 'none') return Math.round(x * 100) / 100;
+  return Math.round(x);
+}
+function setResultClass(el, val) {
+  el.className = 'num result' + (val < 0 ? ' negative' : (val > 0 ? ' positive' : ''));
+}
+function calc() {
+  var people = parseInt(document.getElementById('people').value, 10) || 40;
+  var rows = document.querySelectorAll('tbody tr');
+  var adjust = 0;
+  for (var i=0; i<rows.length; i++) {
+    var tr = rows[i];
+    var base = n(tr.querySelector('.base'));
+    var selected = n(tr.querySelector('.selected'));
+    var q = n(tr.querySelector('.qty'));
+    var rate = n(tr.querySelector('.rate')) / 100;
+    var diff = selected - base;
+    var after = diff * (1 - rate);
+    var total = roundValue(after * q);
+    tr.querySelector('.diff').textContent = yen(diff);
+    tr.querySelector('.after').textContent = yen(roundValue(after));
+    var res = tr.querySelector('.result');
+    res.textContent = yen(total);
+    setResultClass(res,total);
+    adjust += total;
+  }
+  var baseTotal = BASE_TOTALS[String(people)] || 0;
+  var grand = baseTotal + adjust;
+  document.getElementById('baseTotal').textContent = yen(baseTotal);
+  document.getElementById('adjustTotal').textContent = yen(adjust);
+  document.getElementById('grandTotal').textContent = yen(grand);
+  document.getElementById('perPerson').textContent = yen(grand / people);
+}
+function resetSelected() {
+  var rows = document.querySelectorAll('tbody tr');
+  for (var i=0; i<rows.length; i++) {
+    var tr = rows[i];
+    tr.querySelector('.selected').value = tr.querySelector('.base').value;
+  }
+  calc();
+}
+function copySummary() {
+  var text = 'プランC見積\n人数: ' + document.getElementById('people').value + '名\n基本見積: ' + document.getElementById('baseTotal').textContent + '\n差額調整: ' + document.getElementById('adjustTotal').textContent + '\n試算合計: ' + document.getElementById('grandTotal').textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text);
+  alert(text);
+}
+window.onload = function() {
+  syncAllQty();
+  calc();
+  var inputs = document.querySelectorAll('input,select');
+  for (var i=0; i<inputs.length; i++) {
+    inputs[i].addEventListener('change', calc);
+    inputs[i].addEventListener('input', calc);
+  }
+};
+</script>
+</body>
+</html>
