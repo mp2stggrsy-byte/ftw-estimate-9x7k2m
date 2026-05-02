@@ -3,7 +3,7 @@
 <head>
 
 <script>
-const PASSWORD = "miracosta2026";
+const PASSWORD = "20270501";
 while(true){
   let input = prompt("パスワードを入力してください");
   if(input === PASSWORD) break;
@@ -68,13 +68,13 @@ td input,td select { font-size:14px; padding:6px; }
 
 <div class="table-wrap">
 <table>
-<thead><tr><th>項目</th><th>基準金額</th><th>選択金額</th><th>数量区分</th><th>数量</th><th>割引率%</th><th>差額単価</th><th>割引後差額単価</th><th>差額合計</th></tr></thead>
+<thead><tr><th>項目</th><th style='background:#e6f2ff'>選択金額</th><th>基準金額</th><th>数量区分</th><th>数量</th><th>割引率%</th><th>差額単価</th><th>割引後差額単価</th><th>差額合計</th></tr></thead>
 <tbody>
 
 <tr>
 <td class="name">挙式料</td>
-<td><input class="base" type="number" value="288000"></td>
 <td><input class="selected" type="number" value="288000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="288000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -84,8 +84,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">料理</td>
-<td><input class="base" type="number" value="21800"></td>
 <td><input class="selected" type="number" value="21800"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="21800"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="40"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -95,8 +95,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">飲物</td>
-<td><input class="base" type="number" value="5620"></td>
 <td><input class="selected" type="number" value="5620"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="5620"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="40"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -106,8 +106,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">ウェディングケーキ</td>
-<td><input class="base" type="number" value="2090"></td>
 <td><input class="selected" type="number" value="2090"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="2090"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="40"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -117,8 +117,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">披露宴会場費</td>
-<td><input class="base" type="number" value="1920"></td>
 <td><input class="selected" type="number" value="1920"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="1920"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="40"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -128,8 +128,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">控室料</td>
-<td><input class="base" type="number" value="30800"></td>
 <td><input class="selected" type="number" value="30800"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="30800"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="40"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -139,8 +139,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新郎衣装</td>
-<td><input class="base" type="number" value="176000"></td>
 <td><input class="selected" type="number" value="176000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="176000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="40"></td>
@@ -150,8 +150,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新婦衣装</td>
-<td><input class="base" type="number" value="176000"></td>
 <td><input class="selected" type="number" value="176000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="176000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -161,8 +161,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新郎衣装差額</td>
-<td><input class="base" type="number" value="11000"></td>
 <td><input class="selected" type="number" value="11000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="11000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="40"></td>
@@ -172,8 +172,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新郎シャツセット</td>
-<td><input class="base" type="number" value="12100"></td>
 <td><input class="selected" type="number" value="12100"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="12100"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -183,8 +183,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新婦ドレス</td>
-<td><input class="base" type="number" value="385000"></td>
 <td><input class="selected" type="number" value="385000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="385000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="40"></td>
@@ -194,8 +194,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新婦カラードレス</td>
-<td><input class="base" type="number" value="352000"></td>
 <td><input class="selected" type="number" value="352000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="352000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -205,8 +205,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新婦美容</td>
-<td><input class="base" type="number" value="11000"></td>
 <td><input class="selected" type="number" value="11000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="11000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -216,8 +216,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新郎美容</td>
-<td><input class="base" type="number" value="11000"></td>
 <td><input class="selected" type="number" value="11000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="11000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="15"></td>
@@ -227,8 +227,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新郎着付</td>
-<td><input class="base" type="number" value="91300"></td>
 <td><input class="selected" type="number" value="91300"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="91300"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -238,8 +238,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">新婦着付</td>
-<td><input class="base" type="number" value="44000"></td>
 <td><input class="selected" type="number" value="44000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="44000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="15"></td>
@@ -249,8 +249,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">メインテーブル装花</td>
-<td><input class="base" type="number" value="132000"></td>
 <td><input class="selected" type="number" value="132000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="132000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -260,8 +260,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">キャンドル装花</td>
-<td><input class="base" type="number" value="60500"></td>
 <td><input class="selected" type="number" value="60500"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="60500"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -271,8 +271,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">ゲストテーブル装花</td>
-<td><input class="base" type="number" value="12100"></td>
 <td><input class="selected" type="number" value="12100"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="12100"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -282,8 +282,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">ブーケ</td>
-<td><input class="base" type="number" value="33000"></td>
 <td><input class="selected" type="number" value="33000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="33000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -293,8 +293,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">スタジオ写真</td>
-<td><input class="base" type="number" value="99000"></td>
 <td><input class="selected" type="number" value="99000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="99000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="15"></td>
@@ -304,8 +304,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">挙式スナップ</td>
-<td><input class="base" type="number" value="368500"></td>
 <td><input class="selected" type="number" value="368500"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="368500"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -315,8 +315,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">挙式DVD</td>
-<td><input class="base" type="number" value="220000"></td>
 <td><input class="selected" type="number" value="220000"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="220000"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="15"></td>
@@ -326,8 +326,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">招待状</td>
-<td><input class="base" type="number" value="671"></td>
 <td><input class="selected" type="number" value="671"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="671"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="40"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -337,8 +337,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">席札</td>
-<td><input class="base" type="number" value="286"></td>
 <td><input class="selected" type="number" value="286"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="286"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -348,8 +348,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">メニューカード</td>
-<td><input class="base" type="number" value="451"></td>
 <td><input class="selected" type="number" value="451"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="451"></td>
 <td><select class="qtype"><option value="固定" selected>固定</option><option value="人数">人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="1"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -359,8 +359,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">席次表</td>
-<td><input class="base" type="number" value="1111"></td>
 <td><input class="selected" type="number" value="1111"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="1111"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数" selected>人数</option><option value="80%">80%</option></select></td>
 <td><input class="qty" type="number" value="40"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -370,8 +370,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">引出物</td>
-<td><input class="base" type="number" value="4180"></td>
 <td><input class="selected" type="number" value="4180"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="4180"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
 <td><input class="qty" type="number" value="32"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -381,8 +381,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">引菓子</td>
-<td><input class="base" type="number" value="1458"></td>
 <td><input class="selected" type="number" value="1458"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="1458"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
 <td><input class="qty" type="number" value="32"></td>
 <td><input class="rate" type="number" value="0"></td>
@@ -392,8 +392,8 @@ td input,td select { font-size:14px; padding:6px; }
 </tr>
 <tr>
 <td class="name">ペーパーバッグ</td>
-<td><input class="base" type="number" value="484"></td>
 <td><input class="selected" type="number" value="484"></td>
+<td><input class="selected" style="background:#e6f2ff" type="number" value="484"></td>
 <td><select class="qtype"><option value="固定">固定</option><option value="人数">人数</option><option value="80%" selected>80%</option></select></td>
 <td><input class="qty" type="number" value="32"></td>
 <td><input class="rate" type="number" value="0"></td>
